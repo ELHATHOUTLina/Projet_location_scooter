@@ -1,84 +1,104 @@
 package Vue;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.text.SimpleDateFormat;
+import Model.ParcModel;
+import Model.ClientModel;
+import Model.LocationModel;
+import Model.RetourModel;
 
 public class RetourVue extends JFrame {
-    public RetourVue() {
-        setTitle("LOCATION SCOOTER");
-        setSize(700, 700);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    private JTable retourTable;
+    private JButton addButton;
+    private JButton modifyButton;
+    private JButton deleteButton;
+    private JButton searchButton;
+    private JButton allButton;
+
+    public RetourVue(ParcModel parc) {
+        setTitle("Gestion des Retours");
+        setSize(800, 600);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
-        
-        JPanel panelPrincipal = new JPanel();
-        panelPrincipal.setLayout(new FlowLayout());
 
-        JButton Accueil = new JButton("Accueil");
-        JButton Location = new JButton("Location");
-        JButton Retour = new JButton("Retour");
-        JButton Parc = new JButton("Saisie du parc");
-        JButton Quitter = new JButton("Quitter");
+        // Créer un panneau principal
+        JPanel mainPanel = new JPanel(new BorderLayout());
 
-        Retour.setBackground(Color.decode("#4CAF50")); // Changez la couleur de fond du bouton "Retour"
+        // Tableau pour afficher les retours
+        String[] columnNames = { "ID Retour", "Date Retour", "Kilométrage effectué", "Client", "Immatricule Scooter", "Date Début", "Date Fin", "Montant Total" };
+        DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
 
-        panelPrincipal.add(Accueil);
-        panelPrincipal.add(Location);
-        panelPrincipal.add(Retour);
-        panelPrincipal.add(Parc);
-        panelPrincipal.add(Quitter);
+        // Remplir le tableau avec les données des retours
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
+        for (ClientModel client : parc.getClients()) { // Parcourir les clients
+            for (LocationModel location : client.getLocation()) { // Parcourir les locations du client
+                RetourModel retour = location.getRetour(); // Récupérer le retour associé à la location
+                if (retour != null) { 
+                    Object[] rowData = {
+                        retour.getIdRetour(),
+                        dateFormat.format(retour.getDateR()),
+                        retour.getKilometrage_ajouter(),
+                        client.getNom() + " " + client.getPrenom(),
+                        location.getScooter().getNumero_identification(),
+                        dateFormat.format(location.getDateDebut()),
+                        dateFormat.format(location.getDateFin()),
+                        location.calculerMontant()
+                    };
+                    tableModel.addRow(rowData);
+                }
+            }
+        }
 
-//----------------------------------------------------------------
+        retourTable = new JTable(tableModel);
+        JScrollPane tableScrollPane = new JScrollPane(retourTable);
+        mainPanel.add(tableScrollPane, BorderLayout.CENTER);
 
+        // Panneau pour les boutons
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        addButton = new JButton("Ajouter");
+        modifyButton = new JButton("Modifier");
+        deleteButton = new JButton("Supprimer");
+        searchButton = new JButton("Rechercher");
+        allButton = new JButton("Afficher tous");
 
-        Quitter.addActionListener(e -> System.exit(0));
-// -----------------------------------------------------------------------------
+        buttonPanel.add(addButton);
+        buttonPanel.add(modifyButton);
+        buttonPanel.add(deleteButton);
+        buttonPanel.add(searchButton);
+        buttonPanel.add(allButton);
 
-        // Première page affichée
-        JPanel pageRetour = new JPanel();
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
-        JPanel pageRetourUn = new JPanel(new GridLayout(3, 1));
-        JLabel id = new JLabel("Entrez l'id du scooter");
-        JTextField idT = new JTextField("");
-        JButton rechercher = new JButton("recherchez");
+        // Ajouter le panneau principal à la fenêtre
+        getContentPane().add(mainPanel);
 
-        pageRetourUn.add(id);
-        pageRetourUn.add(idT);
-        pageRetourUn.add(rechercher);
-
-        // Deuxième page affichée (quand on clique sur rechercher)
-        JPanel pageRetour2 = new JPanel(new GridLayout(7,1));
-
-        JLabel Km = new JLabel("Entrez le kilométrage final du scooter :");
-        JTextField KmT = new JTextField("");
-        JLabel Penalite = new JLabel("Entrez le type de pénalité :");
-        JTextField PenaliteT = new JTextField("");
-        JLabel Prix = new JLabel("Prix de la pénalité :");
-        JTextField PrixT = new JTextField("");
-        JButton boutonValiderRetour = new JButton("Valider le retour");
-
-        pageRetour2.add(Km);
-        pageRetour2.add(KmT);
-        pageRetour2.add(Penalite);
-        pageRetour2.add(PenaliteT);
-        pageRetour2.add(Prix);
-        pageRetour2.add(PrixT);
-        pageRetour2.add(boutonValiderRetour);
-
-        pageRetour2.setVisible(false); 
-        
-        //les 2 pages 
-        pageRetour.add(pageRetourUn);
-        pageRetour.add(pageRetour2); 
-        setContentPane(pageRetour); 
-
-        //-------------------------FAUT REMPLIR RETOUR-CONTROLLER-----------------------------------------------------------------------------------------
-        // Relier retour au controller
-        // RetourController controller = new RetourController(Parc, idT, pageRetourUn, pageRetour2, KmT, PenaliteT, PrixT); // Modifié : ajout des nouveaux champs
-        // rechercher.addActionListener((ActionListener) controller);
-        // boutonValiderRetour.addActionListener((ActionListener) controller);
-        // -----------------------------------------------------------------------------------------------------------------------------------------------
-        add(panelPrincipal, BorderLayout.NORTH);
         setVisible(true);
+    }
+
+    public JTable getRetourTable() {
+        return retourTable;
+    }
+
+    public JButton getAddButton() {
+        return addButton;
+    }
+
+    public JButton getModifyButton() {
+        return modifyButton;
+    }
+
+    public JButton getDeleteButton() {
+        return deleteButton;
+    }
+
+    public JButton getSearchButton() {
+        return searchButton;
+    }
+
+    public JButton getAllButton() {
+        return allButton;
     }
 }

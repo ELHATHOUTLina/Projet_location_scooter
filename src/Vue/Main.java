@@ -29,10 +29,9 @@ public static void main(String[] args) {
     cal3.set(2025, Calendar.MAY, 5);
     Date dateDebut = cal3.getTime();
     Calendar cal4 = Calendar.getInstance();
-    cal4.set(2025, Calendar.MAY, 6);
+    cal4.set(2025, Calendar.MAY, 7);
     Date dateFin = cal4.getTime();
     LocationModel l1 = new LocationModel( dateDebut, dateFin, c1,s1);
-    LocationModel l2 = new LocationModel( dateDebut, dateFin, c2,s2);
     
 
     }

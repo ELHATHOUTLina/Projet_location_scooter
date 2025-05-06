@@ -19,7 +19,7 @@ public class RetourModel {
         if (km < 0) {
             System.out.println("Le kilométrage ajouté ne peut pas être négatif.");
         }
-        if (dR.before(l.getDateDebut()) || dR.before(l.getDateFin())) {
+        if (dR.before(l.getDateDebut()) ) {
             System.out.println("La date de retour est fausse.");
         }
         idRetour = id;

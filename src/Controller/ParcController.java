@@ -25,12 +25,10 @@ public class ParcController implements ActionListener {
         Object source = e.getSource();
 
         if (source == view.getAjoutClientButton()) {
-            System.out.println("Ajouter Client cliqué");
             ajouterClient();
         } else if (source == view.getAjoutScooterButton()) {
             ajouterScooter();
         } else if (source == view.getAfficherClientsButton()) {
-            System.out.println("Afficher Clients cliqué");
             afficherClients();
         } else if (source == view.getAfficherScootersButton()) {
             afficherScooters();

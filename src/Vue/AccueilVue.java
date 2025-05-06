@@ -7,6 +7,7 @@ import Model.ParcModel;
 
 public class AccueilVue extends JFrame {
     private ParcModel parc;
+
     public AccueilVue(ParcModel parc) {
         this.parc = parc;
         setTitle("LOCATION SCOOTER");
@@ -23,15 +24,15 @@ public class AccueilVue extends JFrame {
         // Ajouter les boutons
         JButton saisieParcButton = new JButton("Saisie de Parc");
         JButton locationsButton = new JButton("Locations");
-        JButton retourButton = new JButton("Retour");
-        JButton reservationsButton = new JButton("Réservations");
+        JButton retourButton = new JButton("Retours");
+        JButton statistiquesButton = new JButton("Statistiques");
         JButton quitterButton = new JButton("Quitter");
 
         // Ajouter les boutons au panneau
         buttonPanel.add(saisieParcButton);
         buttonPanel.add(locationsButton);
         buttonPanel.add(retourButton);
-        buttonPanel.add(reservationsButton);
+        buttonPanel.add(statistiquesButton);
         buttonPanel.add(quitterButton);
 
         // Positionner en haut
@@ -51,7 +52,7 @@ public class AccueilVue extends JFrame {
         AccueilController controller = new AccueilController(this, parc);
         locationsButton.addActionListener(controller);
         retourButton.addActionListener(controller);
-        reservationsButton.addActionListener(controller);
+        statistiquesButton.addActionListener(controller);
         saisieParcButton.addActionListener(controller);
         quitterButton.addActionListener(controller);
 

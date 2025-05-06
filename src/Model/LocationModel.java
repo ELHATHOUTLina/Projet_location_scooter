@@ -1,4 +1,5 @@
 package Model;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class LocationModel {
@@ -52,6 +53,14 @@ public class LocationModel {
             System.out.println("Le retour ne peut pas être nul.");
         }
     }
+    public void supprimerRetour() {
+        if (retour != null) {
+            retour = null;
+            scooter.setDisponible(false);
+        } else {
+            System.out.println("Aucun retour à supprimer.");
+        }
+    }
     public RetourModel getRetour() {
         return retour;
     }
@@ -92,11 +101,12 @@ public class LocationModel {
     }
 
     public String toString() {
+         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return 
                 "Client :" + client.getNom() +" "+ client.getPrenom()+ '\n' +
                 " Scooter :" + scooter.getNumero_identification() +'\n'+
-                " Date debut  :" + dateDebut +'\n'+
-                " Date fin :" + dateFin +'\n'+
+                " Date debut  :" + dateFormat.format(dateDebut) +'\n'+
+                " Date fin :" + dateFormat.format(dateFin) +'\n'+
                 " Retour :" + (retour != null ? "Deja retourné" : "Aucun retour") +'\n';
     }
 

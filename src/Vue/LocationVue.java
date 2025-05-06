@@ -9,7 +9,6 @@ import java.awt.*;
 import java.text.SimpleDateFormat;
 
 import Model.ParcModel;
-import Model.ScooterModel;
 import Model.ClientModel;
 import Model.LocationModel;
 
